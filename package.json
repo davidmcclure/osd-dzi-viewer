@@ -26,10 +26,15 @@
     "bootstrap": "^3.2.0",
     "jquery": "^2.1.1"
   },
-  "browserify-shim": {
-    "./bower_components/openseadragon/openseadragon.js": "OpenSeaDragon"
-  },
   "browserify": {
     "transform": ["browserify-shim"]
+  },
+  "browser": {
+    "osd": "./bower_components/openseadragon/openseadragon.js"
+  },
+  "browserify-shim": {
+    "osd": {
+      "exports": "OpenSeaDragon"
+    }
   }
 }
