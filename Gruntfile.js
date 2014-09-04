@@ -2,11 +2,12 @@
 
 module.exports = function(grunt) {
 
+  var config = grunt.file.readJSON('config.json');
   require('time-grunt')(grunt);
-  require('jit-grunt')(grunt);
 
   require('load-grunt-config')(grunt, {
-    loadGruntTasks: false
+    data: { config: config },
+    jitGrunt: true
   });
 
 };

@@ -1,8 +1,7 @@
 
 
 require('osd');
+var config = require('config');
 
 // TODO|dev
-var viewer = OpenSeadragon({
-  id: 'text'
-});
+console.log(config);

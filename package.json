@@ -20,6 +20,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "jit-grunt": "^0.8.0",
     "load-grunt-config": "^0.13.1",
+    "lodash": "^2.4.1",
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
@@ -27,14 +28,15 @@
     "jquery": "^2.1.1"
   },
   "browserify": {
-    "transform": ["browserify-shim"]
+    "transform": [
+      "browserify-shim"
+    ]
   },
   "browser": {
     "osd": "./bower_components/openseadragon/openseadragon.js"
   },
   "browserify-shim": {
-    "osd": {
-      "exports": "OpenSeaDragon"
-    }
+    "osd": { "exports": "OpenSeaDragon" },
+    "config": { "exports": "global:_config" }
   }
 }
