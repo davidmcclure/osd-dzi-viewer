@@ -11,7 +11,7 @@ html(lang="en")
       h1.title= title
       ul.files
         each ext in [".txt", ".gml", ".gephi", ".png"]
-          li: a(href="#{bucket}/#{slug}/#{slug}.#{ext}")= ext
+          li: a(href="#{bucket}/#{slug}/#{slug}#{ext}")= ext
       .twtr: a(href="https://twitter.com/clured") @clured
       .back: a(href="#") &larr; Back
 
