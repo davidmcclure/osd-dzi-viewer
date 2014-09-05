@@ -7,7 +7,10 @@ var config = require('config');
 var viewer = OpenSeadragon({
 
   id: 'text',
+
   immediateRender: true,
+  showNavigationControl: false,
+  showNavigator: true,
 
   tileSources: {
     Image: {
