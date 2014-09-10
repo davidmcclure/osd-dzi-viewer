@@ -3,11 +3,12 @@
 require('osd');
 var config = require('config');
 var $ = require('jquery');
+var _ = require('lodash');
 var Backbone = require('backbone');
 Backbone.$ = $;
 
 
-var NetworkView = Backbone.View.extend({
+var View = Backbone.View.extend({
 
   id: 'text',
 
@@ -15,6 +16,8 @@ var NetworkView = Backbone.View.extend({
    * Initialize Openseadragon.
    */
   initialize: function() {
+
+    _.bindAll(this, 'setRoute');
 
     this.viewer = OpenSeadragon({
 
@@ -39,6 +42,28 @@ var NetworkView = Backbone.View.extend({
 
     });
 
+    // When the viewport is panned or zoomed.
+    this.viewer.addHandler('zoom', _.debounce(this.setRoute, 500));
+    this.viewer.addHandler('pan',  _.debounce(this.setRoute, 500));
+
+  },
+
+  /**
+   * Update the route.
+   */
+  setRoute: function() {
+
+    var focus = this.viewer.viewport.getCenter();
+    var level = this.viewer.viewport.getZoom();
+
+    var x = focus.x.toFixed(4);
+    var y = focus.y.toFixed(4);
+    var z = level.toFixed(4);
+
+    Backbone.history.navigate(x+'/'+y+'/'+z, {
+      replace: true
+    });
+
   }
 
 });
@@ -48,6 +73,13 @@ var Router = Backbone.Router.extend({
 
   routes: {
     ':x/:y/:z': 'focus'
+  },
+
+  /**
+   * Start the viewer.
+   */
+  initialize: function() {
+    this.viewer = new View();
   },
 
   /**
@@ -61,4 +93,10 @@ var Router = Backbone.Router.extend({
     console.log(x, y, z);
   }
 
+});
+
+
+$(function() {
+  new Router();
+  Backbone.history.start();
 });
