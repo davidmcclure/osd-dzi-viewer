@@ -7,7 +7,7 @@ module.exports = {
   },
 
   dist: {
-    src: 'assets/javascripts/index.js',
+    src: 'src/javascripts/index.js',
     dest: '_site/script.js'
   }
 

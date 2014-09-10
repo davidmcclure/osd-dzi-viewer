@@ -7,7 +7,7 @@ module.exports = {
   },
 
   dist: {
-    src: 'assets/stylesheets/index.less',
+    src: 'src/stylesheets/index.less',
     dest: '_site/style.css'
   }
 

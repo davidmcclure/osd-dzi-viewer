@@ -13,7 +13,7 @@ module.exports = {
   },
 
   less: {
-    files: 'assets/**/*.less',
+    files: 'src/**/*.less',
     tasks: 'less'
   }
 

@@ -3,6 +3,7 @@
 require('osd');
 var config = require('config');
 
+
 // Spin up OSD.
 var viewer = OpenSeadragon({
 
