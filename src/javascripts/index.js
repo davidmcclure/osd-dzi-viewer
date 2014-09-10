@@ -46,6 +46,23 @@ var View = Backbone.View.extend({
     this.viewer.addHandler('zoom', _.debounce(this.setRoute, 500));
     this.viewer.addHandler('pan',  _.debounce(this.setRoute, 500));
 
+    // Apply the route when the source is loaded.
+    this.viewer.addHandler('open', _.bind(function() {
+      Backbone.history.start();
+    }, this));
+
+  },
+
+  /**
+   * Apply a x/y/z focus position.
+   *
+   * @param {Number} x
+   * @param {Number} y
+   * @param {Number} z
+   */
+  focus: function(x, y, z) {
+    this.viewer.viewport.panTo(new OpenSeadragon.Point(x, y));
+    this.viewer.viewport.zoomTo(z);
   },
 
   /**
@@ -53,12 +70,12 @@ var View = Backbone.View.extend({
    */
   setRoute: function() {
 
-    var focus = this.viewer.viewport.getCenter();
-    var level = this.viewer.viewport.getZoom();
+    var c = this.viewer.viewport.getCenter();
+    var z = this.viewer.viewport.getZoom();
 
-    var x = focus.x.toFixed(4);
-    var y = focus.y.toFixed(4);
-    var z = level.toFixed(4);
+    var x = c.x.toFixed(4);
+    var y = c.y.toFixed(4);
+    var z = z.toFixed(4);
 
     Backbone.history.navigate(x+'/'+y+'/'+z, {
       replace: true
@@ -79,7 +96,7 @@ var Router = Backbone.Router.extend({
    * Start the viewer.
    */
   initialize: function() {
-    this.viewer = new View();
+    this.osd = new View();
   },
 
   /**
@@ -90,7 +107,7 @@ var Router = Backbone.Router.extend({
    * @param {String} z
    */
   focus: function(x, y, z) {
-    console.log(x, y, z);
+    this.osd.focus(Number(x), Number(y), Number(z))
   }
 
 });
@@ -98,5 +115,4 @@ var Router = Backbone.Router.extend({
 
 $(function() {
   new Router();
-  Backbone.history.start();
 });
