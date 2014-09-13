@@ -7,11 +7,11 @@ module.exports = function(grunt, options) {
 
     walden: {
       src: 'index.jade',
-      dest: '_site/walden.html',
+      dest: '_site/war-and-peace.html',
       options: {
         data: _.extend(options.config, {
-          slug: 'walden',
-          title: 'Walden'
+          slug: 'war-and-peace',
+          title: 'War and Peace'
         })
       }
     }
