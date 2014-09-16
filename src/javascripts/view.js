@@ -1,9 +1,8 @@
 
 
-require('osd');
 var _ = require('lodash');
-var $ = require('jquery');
 var Backbone = require('backbone');
+require('osd');
 
 
 module.exports = Backbone.View.extend({

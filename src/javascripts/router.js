@@ -1,7 +1,6 @@
 
 
 var _ = require('lodash');
-var $ = require('jquery');
 var Backbone = require('backbone');
 var View = require('./view');
 
