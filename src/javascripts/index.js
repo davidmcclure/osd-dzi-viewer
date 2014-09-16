@@ -14,10 +14,13 @@ var View = Backbone.View.extend({
 
   /**
    * Initialize Openseadragon.
+   *
+   * @param {Object} opts
    */
-  initialize: function() {
+  initialize: function(opts) {
 
-    _.bindAll(this, 'setRoute');
+    // Build the tile source prefix.
+    this.prefix = opts.group+'/'+opts.slug+'/';
 
     this.viewer = OpenSeadragon({
 
@@ -29,8 +32,8 @@ var View = Backbone.View.extend({
 
       tileSources: {
         Image: {
+          Url: this.prefix,
           xmlns: 'http://schemas.microsoft.com/deepzoom/2008',
-          Url: config.bucket+'/'+config.slug+'/tiles/',
           Format: 'jpg',
           TileSize: 512,
           Size: {
@@ -42,13 +45,15 @@ var View = Backbone.View.extend({
 
     });
 
+    _.bindAll(this, 'setRoute');
+
     // When the viewport is panned or zoomed.
     this.viewer.addHandler('zoom', _.debounce(this.setRoute, 500));
     this.viewer.addHandler('pan',  _.debounce(this.setRoute, 500));
 
-    // Apply the route when the source is loaded.
+    // Notify when the source is loaded.
     this.viewer.addHandler('open', _.bind(function() {
-      Backbone.history.start();
+      this.trigger('open');
     }, this));
 
   },
@@ -77,7 +82,7 @@ var View = Backbone.View.extend({
     var y = c.y.toFixed(4);
     var z = z.toFixed(4);
 
-    Backbone.history.navigate(x+'/'+y+'/'+z, {
+    Backbone.history.navigate(this.prefix+x+'/'+y+'/'+z, {
       replace: true
     });
 
@@ -89,14 +94,15 @@ var View = Backbone.View.extend({
 var Router = Backbone.Router.extend({
 
   routes: {
-    ':x/:y/:z': 'focus'
+    ':group/:slug': 'init',
+    ':group/:slug/:x/:y/:z': 'focus'
   },
 
   /**
    * Start the viewer.
    */
-  initialize: function() {
-    this.osd = new View();
+  init: function(group, slug) {
+    new View({ group: group, slug: slug });
   },
 
   /**
@@ -106,8 +112,16 @@ var Router = Backbone.Router.extend({
    * @param {String} y
    * @param {String} z
    */
-  focus: function(x, y, z) {
-    this.osd.focus(Number(x), Number(y), Number(z))
+  focus: function(group, slug, x, y, z) {
+
+    // Start the viewer.
+    var osd = new View({ group: group, slug: slug });
+
+    // Apply the focus when the source is ready.
+    osd.on('open', _.bind(function() {
+      osd.focus(Number(x), Number(y), Number(z));
+    }, this));
+
   }
 
 });
@@ -115,4 +129,5 @@ var Router = Backbone.Router.extend({
 
 $(function() {
   new Router();
+  Backbone.history.start();
 });
