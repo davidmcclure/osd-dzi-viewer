@@ -34,8 +34,8 @@ var View = Backbone.View.extend({
           Format: 'jpg',
           TileSize: 512,
           Size: {
-            Height: 10000,
-            Width: 10000
+            Height: 20000,
+            Width: 20000
           }
         }
       }

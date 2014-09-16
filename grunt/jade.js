@@ -5,7 +5,7 @@ var _ = require('lodash');
 module.exports = function(grunt, options) {
   return {
 
-    walden: {
+    war_and_peace: {
       src: 'index.jade',
       dest: '_site/war-and-peace.html',
       options: {
