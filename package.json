@@ -37,9 +37,6 @@
   "browserify-shim": {
     "osd": {
       "exports": "OpenSeaDragon"
-    },
-    "config": {
-      "exports": "global:_config"
     }
   }
 }
