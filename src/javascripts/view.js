@@ -25,7 +25,7 @@ module.exports = Backbone.View.extend({
 
       id: 'text',
 
-      immediateRender: true,
+      useCanvas: false,
       showNavigationControl: false,
       showNavigator: true,
 
