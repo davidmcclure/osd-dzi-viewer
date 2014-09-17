@@ -1,6 +1,7 @@
 
 
 var _ = require('lodash');
+var $ = require('jquery');
 var Backbone = require('backbone');
 require('osd');
 
@@ -25,7 +26,7 @@ module.exports = Backbone.View.extend({
 
       id: 'text',
 
-      useCanvas: false,
+      immediateRender: true,
       showNavigationControl: false,
       showNavigator: true,
 
@@ -53,6 +54,7 @@ module.exports = Backbone.View.extend({
     // Notify when the source is loaded.
     this.viewer.addHandler('open', _.bind(function() {
       this.trigger('open');
+      //this._positionRetina();
     }, this));
 
   },
@@ -92,6 +94,45 @@ module.exports = Backbone.View.extend({
    */
   destroy: function() {
     this.viewer.destroy();
+  },
+
+  /**
+   * Fix the resolution on retina displays.
+   */
+  _positionRetina: function() {
+
+    var h = $(window).height();
+    var w = $(window).width();
+
+    $('.openseadragon-container').css({
+      width:  2*w,
+      height: 2*h,
+      top:   -h/2,
+      left:  -w/2,
+    });
+
+    var canvas = $(this.viewer.canvas).find('canvas');
+
+    canvas.attr({
+      width:  2*w,
+      height: 2*h
+    });
+
+    canvas.css({
+      width:  w,
+      height: h
+    });
+
+    var context = canvas.get(0).getContext('2d');
+    context.scale(2, 2);
+
+    this.viewer.viewport.resize({
+      x: 2*w,
+      y: 2*h
+    });
+
+    this.viewer.viewport.resetContentSize();
+
   }
 
 });
