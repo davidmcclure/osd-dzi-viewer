@@ -8,34 +8,33 @@ var View = require('./view');
 module.exports = Backbone.Router.extend({
 
   routes: {
-    ':group/:slug': 'init',
-    ':group/:slug/:x/:y/:z': 'focus'
+    ':group/:slug(/:x/:y/:z)': 'focus'
   },
 
   /**
-   * Start the viewer.
-   */
-  init: function(group, slug) {
-    new View({ group: group, slug: slug });
-  },
-
-  /**
-   * Focus on a specific location.
+   * Focus on a location.
    *
+   * @param {String} group
+   * @param {String} slug
    * @param {String} x
    * @param {String} y
    * @param {String} z
    */
   focus: function(group, slug, x, y, z) {
 
-    // Start the viewer.
-    var osd = new View({ group: group, slug: slug });
+    // Destroy existing viewer.
+    if (this.viewer) this.viewer.destroy();
 
-    // Apply the focus when the source is ready.
-    osd.on('open', _.bind(function() {
-      osd.focus(Number(x), Number(y), Number(z));
-    }, this));
+    // Start the new viewer.
+    this.viewer = new View({ group: group, slug: slug });
 
-  }
+    // Apply the focus, if provided.
+    if (x && y && z) {
+      this.viewer.on('open', _.bind(function() {
+        this.viewer.focus(Number(x), Number(y), Number(z));
+      }, this));
+    }
+
+  },
 
 });

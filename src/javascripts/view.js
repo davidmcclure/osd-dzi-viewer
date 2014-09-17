@@ -16,6 +16,8 @@ module.exports = Backbone.View.extend({
    */
   initialize: function(opts) {
 
+    this.options = opts;
+
     // Build the tile source prefix.
     this.prefix = opts.group+'/'+opts.slug+'/';
 
@@ -83,6 +85,13 @@ module.exports = Backbone.View.extend({
       replace: true
     });
 
+  },
+
+  /**
+   * Tear down the viewer.
+   */
+  destroy: function() {
+    this.viewer.destroy();
   }
 
 });
