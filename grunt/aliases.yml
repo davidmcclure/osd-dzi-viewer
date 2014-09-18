@@ -10,7 +10,6 @@ compile:min:
   - cssmin
 
 default:
-  - clean
   - compile
   - connect
   - watch
