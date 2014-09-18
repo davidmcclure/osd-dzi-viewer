@@ -3,7 +3,7 @@
 module.exports = {
 
   livereload: {
-    files: ['_site/**/*', 'grunt/*'],
+    files: ['_site/*', 'grunt/*'],
     options: { livereload: true }
   },
 
