@@ -12,6 +12,13 @@ module.exports = Backbone.Router.extend({
   },
 
   /**
+   * Spin up the viewer.
+   */
+  initialize: function() {
+    this.viewer = new View();
+  },
+
+  /**
    * Focus on a location.
    *
    * @param {String} group
@@ -22,19 +29,12 @@ module.exports = Backbone.Router.extend({
    */
   focus: function(group, slug, x, y, z) {
 
-    // Destroy existing viewer.
-    if (this.viewer) this.viewer.destroy();
+    this.viewer.setImage(group, slug);
 
-    // Start the new viewer.
-    this.viewer = new View({ group: group, slug: slug });
-
-    // Apply the focus, if provided.
-    if (x && y && z) {
-      this.viewer.on('open', _.bind(function() {
-        this.viewer.focus(Number(x), Number(y), Number(z));
-      }, this));
+    if (x && y && z) { // Apply the focus.
+      this.viewer.focus(Number(x), Number(y), Number(z));
     }
 
-  },
+  }
 
 });

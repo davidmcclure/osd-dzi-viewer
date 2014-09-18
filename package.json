@@ -32,10 +32,14 @@
     ]
   },
   "browser": {
-    "zoomify": "./bower_components/zoomify/L.TileLayer.Zoomify.js"
+    "zoomify": "./bower_components/zoomify/L.TileLayer.Zoomify.js",
+    "minimap": "./bower_components/minimap/src/Control.MiniMap.js"
   },
   "browserify-shim": {
     "zoomify": {
+      "depends": "leaflet:L"
+    },
+    "minimap": {
       "depends": "leaflet:L"
     }
   }

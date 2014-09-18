@@ -3,7 +3,10 @@
 module.exports = {
 
   options: {
-    paths: ['node_modules']
+    paths: [
+      'bower_components',
+      'node_modules'
+    ]
   },
 
   dist: {
