@@ -2,11 +2,14 @@
   "name": "textplot-osd",
   "version": "0.0.0",
   "homepage": "https://github.com/davidmcclure/textplot-osd",
-  "authors": ["David McClure <davidwilliammcclure@gmail.com>"],
+  "authors": [
+    "David McClure <davidwilliammcclure@gmail.com>"
+  ],
   "description": "An itty bitty static site generator for zoomable images.",
   "license": "MIT",
   "private": true,
-  "devDependencies": {
-    "openlayers": "https://github.com/openlayers/ol3/releases/download/v3.0.0/v3.0.0.zip"
+  "dependencies": {
+    "minimap": "Norkart/Leaflet-MiniMap",
+    "zoomify": "jieter/Leaflet.Zoomify"
   }
 }

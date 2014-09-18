@@ -32,11 +32,11 @@
     ]
   },
   "browser": {
-    "ol": "./bower_components/openlayers/build/ol.js"
+    "zoomify": "./bower_components/zoomify/L.TileLayer.Zoomify.js"
   },
   "browserify-shim": {
-    "ol": {
-      "exports": "ol"
+    "zoomify": {
+      "depends": "leaflet:L"
     }
   }
 }
