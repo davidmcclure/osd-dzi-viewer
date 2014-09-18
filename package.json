@@ -23,6 +23,7 @@
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
+    "leaflet": "^0.7.3",
     "lodash": "^2.4.1"
   },
   "browserify": {
@@ -31,11 +32,11 @@
     ]
   },
   "browser": {
-    "osd": "./bower_components/openseadragon/openseadragon.js"
+    "ol": "./bower_components/openlayers/build/ol.js"
   },
   "browserify-shim": {
-    "osd": {
-      "exports": "OpenSeaDragon"
+    "ol": {
+      "exports": "ol"
     }
   }
 }

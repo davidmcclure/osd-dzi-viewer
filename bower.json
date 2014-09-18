@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "homepage": "https://github.com/davidmcclure/textplot-osd",
   "authors": ["David McClure <davidwilliammcclure@gmail.com>"],
-  "description": "Zoomable text networks with OpenSeaDragon.",
+  "description": "An itty bitty static site generator for zoomable images.",
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "openseadragon": "https://github.com/openseadragon/openseadragon/releases/download/v1.1.1/openseadragon-bin-1.1.1.tar.gz"
+    "openlayers": "https://github.com/openlayers/ol3/releases/download/v3.0.0/v3.0.0.zip"
   }
 }

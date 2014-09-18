@@ -3,12 +3,16 @@
 var _ = require('lodash');
 var $ = require('jquery');
 var Backbone = require('backbone');
-require('osd');
+require('ol');
 
 
 module.exports = Backbone.View.extend({
 
   id: 'text',
+
+  options: {
+    size: 20000
+  },
 
   /**
    * Initialize Openseadragon.
@@ -17,45 +21,79 @@ module.exports = Backbone.View.extend({
    */
   initialize: function(opts) {
 
-    this.options = opts;
+    //this.options = opts;
 
-    // Build the tile source prefix.
-    this.prefix = opts.group+'/'+opts.slug+'/';
+    //// Build the tile source prefix.
+    //this.prefix = opts.group+'/'+opts.slug+'/';
 
-    this.viewer = OpenSeadragon({
+    //var size = this.options.size;
 
-      id: 'text',
+    //var proj = new ol.proj.Projection({
+      //code: 'ZOOMIFY',
+      //extent: [0, 0, size, size],
+      //units: 'pixels'
+    //});
 
-      immediateRender: true,
-      showNavigationControl: false,
-      showNavigator: true,
+    //var source = new ol.source.Zoomify({
+      //url: this.prefix,
+      //crossOrigin: 'anonymous',
+      //size: [size, size]
+    //});
 
-      tileSources: {
-        Image: {
-          Url: this.prefix,
-          xmlns: 'http://schemas.microsoft.com/deepzoom/2008',
-          Format: 'jpg',
-          TileSize: 512,
-          Size: {
-            Height: 20000,
-            Width: 20000
-          }
-        }
-      }
+    //this.map = new ol.Map({
 
+      //target: 'image',
+
+      //view: new ol.View({
+        //projection: proj,
+        //center: [size/2, -size/2],
+        //zoom: 0
+      //}),
+
+      //layers: [
+        //new ol.layer.Tile({
+          //source: source
+        //})
+      //]
+
+    //});var imgWidth = 9911;
+
+    var imgWidth = 20000;
+    var imgHeight = 20000;
+    var url = 'mental-maps/test/';
+    var crossOrigin = 'anonymous';
+
+    var imgCenter = [10000, -10000];
+
+    // Maps always need a projection, but Zoomify layers are not geo-referenced, and
+    // are only measured in pixels.  So, we create a fake projection that the map
+    // can use to properly display the layer.
+    var proj = new ol.proj.Projection({
+      code: 'ZOOMIFY',
+      units: 'pixels',
+      extent: [0, 0, imgWidth, imgHeight]
     });
 
-    _.bindAll(this, 'setRoute');
+    var source = new ol.source.Zoomify({
+      url: url,
+      size: [imgWidth, imgHeight],
+      crossOrigin: crossOrigin
+    });
 
-    // When the viewport is panned or zoomed.
-    this.viewer.addHandler('zoom', _.debounce(this.setRoute, 500));
-    this.viewer.addHandler('pan',  _.debounce(this.setRoute, 500));
-
-    // Notify when the source is loaded.
-    this.viewer.addHandler('open', _.bind(function() {
-      this.trigger('open');
-      //this._positionRetina();
-    }, this));
+    var map = new ol.Map({
+      layers: [
+        new ol.layer.Tile({
+          source: source
+        })
+      ],
+      target: 'image',
+      renderer: 'dom',
+      view: new ol.View({
+        projection: proj,
+        center: imgCenter,
+        zoom: 0
+      })
+    });
 
   },
 
@@ -67,8 +105,7 @@ module.exports = Backbone.View.extend({
    * @param {Number} z
    */
   focus: function(x, y, z) {
-    this.viewer.viewport.panTo(new OpenSeadragon.Point(x, y));
-    this.viewer.viewport.zoomTo(z);
+    // TODO
   },
 
   /**
@@ -76,12 +113,7 @@ module.exports = Backbone.View.extend({
    */
   setRoute: function() {
 
-    var c = this.viewer.viewport.getCenter();
-    var z = this.viewer.viewport.getZoom();
-
-    var x = c.x.toFixed(4);
-    var y = c.y.toFixed(4);
-    var z = z.toFixed(4);
+    // TODO
 
     Backbone.history.navigate(this.prefix+x+'/'+y+'/'+z, {
       replace: true
@@ -93,46 +125,7 @@ module.exports = Backbone.View.extend({
    * Tear down the viewer.
    */
   destroy: function() {
-    this.viewer.destroy();
-  },
-
-  /**
-   * Fix the resolution on retina displays.
-   */
-  _positionRetina: function() {
-
-    var h = $(window).height();
-    var w = $(window).width();
-
-    $('.openseadragon-container').css({
-      width:  2*w,
-      height: 2*h,
-      top:   -h/2,
-      left:  -w/2,
-    });
-
-    var canvas = $(this.viewer.canvas).find('canvas');
-
-    canvas.attr({
-      width:  2*w,
-      height: 2*h
-    });
-
-    canvas.css({
-      width:  w,
-      height: h
-    });
-
-    var context = canvas.get(0).getContext('2d');
-    context.scale(2, 2);
-
-    this.viewer.viewport.resize({
-      x: 2*w,
-      y: 2*h
-    });
-
-    this.viewer.viewport.resetContentSize();
-
+    // TODO
   }
 
 });
