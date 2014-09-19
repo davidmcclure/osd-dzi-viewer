@@ -7,9 +7,11 @@ var View = require('./view');
 
 module.exports = Backbone.Router.extend({
 
+
   routes: {
     ':group/:slug(/:x/:y/:z)': 'focus'
   },
+
 
   /**
    * Spin up the viewer.
@@ -17,6 +19,7 @@ module.exports = Backbone.Router.extend({
   initialize: function() {
     this.viewer = new View();
   },
+
 
   /**
    * Focus on a location.
@@ -29,12 +32,17 @@ module.exports = Backbone.Router.extend({
    */
   focus: function(group, slug, x, y, z) {
 
-    this.viewer.setImage(group, slug);
+    // If necessary, mount the image.
+    this.viewer.setImage(group, slug).then(_.bind(function() {
 
-    if (x && y && z) { // Apply the focus.
-      this.viewer.focus(Number(x), Number(y), Number(z));
-    }
+      if (x && y && z) { // Apply the focus.
+        this.viewer.focus(Number(x), Number(y), Number(z));
+      }
+
+    }, this));
+
 
   }
+
 
 });

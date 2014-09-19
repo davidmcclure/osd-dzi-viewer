@@ -3,18 +3,20 @@
 var _ = require('lodash');
 var $ = require('jquery');
 var Backbone = require('backbone');
-var L = require('leaflet');
-require('zoomify');
-require('minimap');
+var Q = require('q');
+require('osd');
 
 
 module.exports = Backbone.View.extend({
 
+
   id: 'text',
+
 
   options: {
     size: 20000
   },
+
 
   /**
    * Initialize Leaflet.
@@ -24,42 +26,40 @@ module.exports = Backbone.View.extend({
    */
   setImage: function(group, slug) {
 
-    // Break if the image is already set.
-    if (this.g == group && this.s == slug) return;
-
-    // Clear an existing map.
-    if (this.map) this.destroy();
+    var deferred = Q.defer();
+    if (this.g == group && this.s == slug) deferred.resolve();
+    if (this.osd) this.destroy();
 
     this.prefix = group+'/'+slug+'/';
 
-    var layerOpts = {
-      width:      this.options.size,
-      height:     this.options.size,
-      tolerance:  0.8,
-      tileSize:   128
-    };
+    this.osd = OpenSeadragon({
 
-    this.map = L.map('image').setView(new L.LatLng(0,0), 0);
+      id: 'image',
 
-    var layer1 = L.tileLayer.zoomify(this.prefix, layerOpts);
-    var layer2 = L.tileLayer.zoomify(this.prefix, layerOpts);
+      tileSources: this.prefix+'/'+slug+'.dzi',
 
-    // Main layer:
-    this.map.addLayer(layer1);
+      immediateRender: true,
+      showNavigationControl: false,
+      showNavigator: true
 
-    // Minimap:
-    var mini = new L.Control.MiniMap(layer2);
-    this.map.addControl(mini);
+    });
 
     _.bindAll(this, 'setRoute');
 
-    // Update the route on move.
-    this.map.on('move', _.debounce(this.setRoute, 500));
+    // Update route when the viewport is panned or zoomed.
+    this.osd.addHandler('zoom', _.debounce(this.setRoute, 500));
+    this.osd.addHandler('pan',  _.debounce(this.setRoute, 500));
+
+    // Resolve when the source is loaded.
+    this.osd.addHandler('open', deferred.resolve);
 
     this.g = group;
     this.s = slug;
 
+    return deferred.promise;
+
   },
+
 
   /**
    * Apply a x/y/z focus position.
@@ -69,19 +69,22 @@ module.exports = Backbone.View.extend({
    * @param {Number} z
    */
   focus: function(x, y, z) {
-    this.map.setView([x, y], z);
+    this.osd.viewport.panTo(new OpenSeadragon.Point(x, y));
+    this.osd.viewport.zoomTo(z);
   },
+
 
   /**
    * Update the route.
    */
   setRoute: function() {
 
-    var c = this.map.getCenter();
-    var z = this.map.getZoom();
+    var c = this.osd.viewport.getCenter();
+    var z = this.osd.viewport.getZoom();
 
-    var x = c.lat.toFixed(4);
-    var y = c.lng.toFixed(4);
+    var x = c.x.toFixed(4);
+    var y = c.y.toFixed(4);
+    var z = z.toFixed(4);
 
     Backbone.history.navigate(this.prefix+x+'/'+y+'/'+z, {
       replace: true
@@ -89,11 +92,13 @@ module.exports = Backbone.View.extend({
 
   },
 
+
   /**
-   * Tear down the map.
+   * Tear down the viewer.
    */
   destroy: function() {
-    this.map.remove();
+    this.osd.destroy();
   }
+
 
 });

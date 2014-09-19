@@ -23,8 +23,10 @@
     "time-grunt": "^1.0.0"
   },
   "dependencies": {
-    "leaflet": "^0.7.3",
-    "lodash": "^2.4.1"
+    "backbone": "^1.1.2",
+    "jquery": "^2.1.1",
+    "lodash": "^2.4.1",
+    "q": "^1.0.1"
   },
   "browserify": {
     "transform": [
@@ -32,15 +34,11 @@
     ]
   },
   "browser": {
-    "zoomify": "./bower_components/zoomify/L.TileLayer.Zoomify.js",
-    "minimap": "./bower_components/minimap/src/Control.MiniMap.js"
+    "osd": "./bower_components/openseadragon/openseadragon.js"
   },
   "browserify-shim": {
-    "zoomify": {
-      "depends": "leaflet:L"
-    },
-    "minimap": {
-      "depends": "leaflet:L"
+    "osd": {
+      "exports": "OpenSeaDragon"
     }
   }
 }

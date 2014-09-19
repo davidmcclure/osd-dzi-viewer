@@ -8,8 +8,7 @@
   "description": "An itty bitty static site generator for zoomable images.",
   "license": "MIT",
   "private": true,
-  "dependencies": {
-    "minimap": "Norkart/Leaflet-MiniMap",
-    "zoomify": "jieter/Leaflet.Zoomify"
+  "devDependencies": {
+    "openseadragon": "https://github.com/openseadragon/openseadragon/releases/download/v1.1.1/openseadragon-bin-1.1.1.tar.gz"
   }
 }
