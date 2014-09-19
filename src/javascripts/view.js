@@ -10,12 +10,7 @@ require('osd');
 module.exports = Backbone.View.extend({
 
 
-  id: 'text',
-
-
-  options: {
-    size: 20000
-  },
+  id: 'image',
 
 
   /**
@@ -27,34 +22,43 @@ module.exports = Backbone.View.extend({
   setImage: function(group, slug) {
 
     var deferred = Q.defer();
+
+    // If the image is already set, continue.
     if (this.g == group && this.s == slug) deferred.resolve();
-    if (this.osd) this.destroy();
 
-    this.prefix = group+'/'+slug+'/';
+    else {
 
-    this.osd = OpenSeadragon({
+      // Remove existing viewer.
+      if (this.osd) this.destroy();
 
-      id: 'image',
+      // Set the tile prefix.
+      this.prefix = group+'/'+slug+'/';
 
-      tileSources: this.prefix+'/'+slug+'.dzi',
+      this.osd = OpenSeadragon({
 
-      immediateRender: true,
-      showNavigationControl: false,
-      showNavigator: true
+        id: 'image',
 
-    });
+        tileSources: this.prefix+'/'+slug+'.dzi',
 
-    _.bindAll(this, 'setRoute');
+        immediateRender: true,
+        showNavigationControl: false,
+        showNavigator: true
 
-    // Update route when the viewport is panned or zoomed.
-    this.osd.addHandler('zoom', _.debounce(this.setRoute, 500));
-    this.osd.addHandler('pan',  _.debounce(this.setRoute, 500));
+      });
 
-    // Resolve when the source is loaded.
-    this.osd.addHandler('open', deferred.resolve);
+      _.bindAll(this, 'setRoute');
 
-    this.g = group;
-    this.s = slug;
+      // Update route when the viewport is panned or zoomed.
+      this.osd.addHandler('zoom', _.debounce(this.setRoute, 500));
+      this.osd.addHandler('pan',  _.debounce(this.setRoute, 500));
+
+      // Resolve when the source is loaded.
+      this.osd.addHandler('open', deferred.resolve);
+
+      this.g = group;
+      this.s = slug;
+
+    }
 
     return deferred.promise;
 
