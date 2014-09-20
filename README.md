@@ -10,7 +10,21 @@ Or, in the wild:
 
 Where `image-group` sits next to the generated `index.html` file, and `image` is a directory inside of `image-group` with an `image.dzi` file and the tile pyramid under `image_files`. So, you might have a directory structure like this on s3:
 
-[fig]
+```bash
+├── index.html
+├── script.js
+├── style.css
+├── image-group
+│   ├── image1
+│   │   ├── image1.dzi
+│   │   └── image1_files/
+│   ├── image2
+│   │   ├── image2.dzi
+│   │   └── image2_files/
+│   └── image3
+│       ├── image3.dzi
+│       └── image3_files/
+```
 
 As the user pans and zooms around the image, the viewer updates the route with the current focus and zoom position, which makes it possible to hard-link to specific locations:
 
