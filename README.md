@@ -36,4 +36,4 @@ To see it in action, check out the second half of [this blog post](https://githu
 
 ## Generating the viewer
 
-Run `grunt compile:min`, which generates a `_site` directory with `index.html`, `script.js`, `style.css`. Or, just grab the pre-built tarball.
+Run `grunt compile:min`, which generates a `_site` directory with `index.html`, `script.js`, `style.css`. Or, just grab a [pre-built tarball](https://github.com/davidmcclure/osd-dzi-viewer/releases) from the releases.
