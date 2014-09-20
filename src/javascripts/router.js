@@ -9,7 +9,7 @@ module.exports = Backbone.Router.extend({
 
 
   routes: {
-    ':group/:slug(/:x/:y/:z)': 'focus'
+    ':group/:image(/:x/:y/:z)': 'focus'
   },
 
 
@@ -25,22 +25,21 @@ module.exports = Backbone.Router.extend({
    * Focus on a location.
    *
    * @param {String} group
-   * @param {String} slug
+   * @param {String} image
    * @param {String} x
    * @param {String} y
    * @param {String} z
    */
-  focus: function(group, slug, x, y, z) {
+  focus: function(group, image, x, y, z) {
 
     // If necessary, mount the image.
-    this.viewer.setImage(group, slug).then(_.bind(function() {
+    this.viewer.setImage(group, image, _.bind(function() {
 
       if (x && y && z) { // Apply the focus.
         this.viewer.focus(Number(x), Number(y), Number(z));
       }
 
     }, this));
-
 
   }
 

@@ -3,7 +3,6 @@
 var _ = require('lodash');
 var $ = require('jquery');
 var Backbone = require('backbone');
-var Q = require('q');
 require('osd');
 
 
@@ -14,53 +13,59 @@ module.exports = Backbone.View.extend({
 
 
   /**
-   * Initialize Leaflet.
+   * If necessary, mount a new image.
    *
    * @param {String} group
-   * @param {String} slug
+   * @param {String} image
+   * @param {Function} cb
    */
-  setImage: function(group, slug) {
+  setImage: function(group, image, cb) {
 
-    var deferred = Q.defer();
+    var newImage = !(
+      this.group == group &&
+      this.image == image
+    );
 
-    // If the image is already set, continue.
-    if (this.g == group && this.s == slug) deferred.resolve();
+    if (newImage) this.mountImage(group, image, cb);
+    else cb();
 
-    else {
+    this.group = group;
+    this.image = image;
 
-      // Remove existing viewer.
-      if (this.osd) this.destroy();
+  },
 
-      // Set the tile prefix.
-      this.prefix = group+'/'+slug+'/';
 
-      this.osd = OpenSeadragon({
+  /**
+   * Instantiate OSD.
+   *
+   * @param {String} group
+   * @param {String} image
+   * @param {Function} cb
+   */
+  mountImage: function(group, image, cb) {
 
-        id: 'image',
+    if (this.osd) this.osd.destroy();
 
-        tileSources: this.prefix+'/'+slug+'.dzi',
+    // Set the tile prefix.
+    this.prefix = group+'/'+image+'/';
 
-        immediateRender: true,
-        showNavigationControl: false,
-        showNavigator: true
+    // Start OSD.
+    this.osd = OpenSeadragon({
+      id: this.id,
+      tileSources: this.prefix+'/'+image+'.dzi',
+      immediateRender: true,
+      showNavigationControl: false,
+      showNavigator: true
+    });
 
-      });
+    _.bindAll(this, 'setRoute');
 
-      _.bindAll(this, 'setRoute');
+    // Update route on pan/zoom.
+    this.osd.addHandler('zoom', _.debounce(this.setRoute, 500));
+    this.osd.addHandler('pan',  _.debounce(this.setRoute, 500));
 
-      // Update route when the viewport is panned or zoomed.
-      this.osd.addHandler('zoom', _.debounce(this.setRoute, 500));
-      this.osd.addHandler('pan',  _.debounce(this.setRoute, 500));
-
-      // Resolve when the source is loaded.
-      this.osd.addHandler('open', deferred.resolve);
-
-      this.g = group;
-      this.s = slug;
-
-    }
-
-    return deferred.promise;
+    // Resolve when loaded.
+    this.osd.addHandler('open', cb);
 
   },
 
@@ -94,14 +99,6 @@ module.exports = Backbone.View.extend({
       replace: true
     });
 
-  },
-
-
-  /**
-   * Tear down the viewer.
-   */
-  destroy: function() {
-    this.osd.destroy();
   }
 
 
