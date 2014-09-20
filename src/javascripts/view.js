@@ -21,9 +21,9 @@ module.exports = Backbone.View.extend({
    */
   setImage: function(group, image, cb) {
 
-    var newImage = !(
-      this.group == group &&
-      this.image == image
+    var newImage = (
+      this.group != group ||
+      this.image != image
     );
 
     if (newImage) this.mountImage(group, image, cb);
