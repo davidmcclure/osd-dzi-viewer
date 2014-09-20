@@ -1,12 +1,8 @@
 # OpenSeaDragon / DZI Viewer
 
-An itty-bitty static site generator that makes it possible to serve up an arbitrary number of [DZI](http://en.wikipedia.org/wiki/Deep_Zoom) tile pyramids using [OpenSeadragon](http://openseadragon.github.io), without having to monkey around with a server or generate a bunch of redundant HTML files. A Backbone router listens for routes like:
+This is an itty-bitty static site generator that makes it possible to serve up an arbitrary number of [DZI](http://en.wikipedia.org/wiki/Deep_Zoom) tile pyramids using [OpenSeadragon](http://openseadragon.github.io), without having to monkey around with a server or generate a bunch of redundant HTML files. A Backbone router listens for routes like:
 
 `your.s3.bucket/#image-group/image`
-
-Or, in the wild:
-
-[`http://textplot.s3-website-us-west-1.amazonaws.com/#mental-maps/war-and-peace`](http://textplot.s3-website-us-west-1.amazonaws.com/#mental-maps/war-and-peace)
 
 Where `image-group` sits next to the generated `index.html` file, and `image` is a directory inside of `image-group` with an `image.dzi` file and the tile pyramid under `image_files`. So, you might have a directory structure like this on s3:
 
