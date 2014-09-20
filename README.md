@@ -6,7 +6,7 @@ A little static site generator that makes it possible to serve up an arbitrary n
 
 Or, in the wild:
 
-[`http://textplot.s3-website-us-west-1.amazonaws.com/#mental-maps/war-and-peace`]
+[`http://textplot.s3-website-us-west-1.amazonaws.com/#mental-maps/war-and-peace`](http://textplot.s3-website-us-west-1.amazonaws.com/#mental-maps/war-and-peace)
 
 Where `image-group` sits next to the generated `index.html` file, and `image` is a directory inside of `image-group` with an `image.dzi` file and the tile pyramid under `image_files`. So, you might have a directory structure like this on s3:
 
