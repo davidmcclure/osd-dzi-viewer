@@ -1,8 +1,12 @@
 # OpenSeaDragon, DZI, s3
 
-A little static site generator that makes it possible to serve up an arbitrary number of DZI tile pyramids using OpenSeadragon, without having to monkey around with a server or generate a bunch of redundant HTML files. A Backbone router listens for routes like:
+A little static site generator that makes it possible to serve up an arbitrary number of [DZI](http://en.wikipedia.org/wiki/Deep_Zoom) tile pyramids using [OpenSeadragon](http://openseadragon.github.io), without having to monkey around with a server or generate a bunch of redundant HTML files. A Backbone router listens for routes like:
 
 `your.s3.bucket/#image-group/image`
+
+Or, in the wild:
+
+`http://textplot.s3-website-us-west-1.amazonaws.com/#mental-maps/war-and-peace`
 
 Where `image-group` sits next to the generated `index.html` file, and `image` is a directory inside of `image-group` with an `image.dzi` file and the tile pyramid under `image_files`. So, you might have a directory structure like this on s3:
 
@@ -14,7 +18,7 @@ As the user pans and zooms around the image, the viewer updates the route with t
 
 Which makes it easy to "quote" specific sections of the image from an external piece of writing, like this. Throw a `target="_new"` attribute onto the anchor tags, and then other links in the text will just switch the active context back to the existing tab and update the focus location, like this. If a link points to a different image, instead of just a different location in the same image, the router will restart OpenSeadragon with the new tile pyramid and apply the requested focus, like this.
 
-To see it in action, check out the second half of this blog post.
+To see it in action, check out the second half of [this blog post](https://github.com/davidmcclure/textplot/blob/master/notes/mental-maps/index.md).
 
 ## Generating the viewer
 
