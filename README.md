@@ -1,4 +1,4 @@
-# Static OpenSeaDragon / DZI Viewer
+# OpenSeaDragon / DZI Viewer
 
 A little static site generator that makes it possible to serve up an arbitrary number of [DZI](http://en.wikipedia.org/wiki/Deep_Zoom) tile pyramids using [OpenSeadragon](http://openseadragon.github.io), without having to monkey around with a server or generate a bunch of redundant HTML files. A Backbone router listens for routes like:
 
