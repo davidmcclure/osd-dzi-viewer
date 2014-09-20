@@ -13,3 +13,7 @@ default:
   - compile
   - connect
   - watch
+
+package:
+  - compile:min
+  - compress

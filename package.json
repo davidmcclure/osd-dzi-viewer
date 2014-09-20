@@ -1,6 +1,6 @@
 {
   "name": "textplot-osd",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Zoomable text networks with OpenSeaDragon.",
   "author": {
     "name": "David McClure",
