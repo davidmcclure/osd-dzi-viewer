@@ -26,7 +26,7 @@ As the user pans and zooms around the image, the viewer updates the route with t
 
 `your.s3.bucket/#image-group/image/0.5615/0.4206/8.4324`
 
-Which makes it easy to "quote" specific sections of the image from an external piece of writing, like this. Throw a `target="_new"` attribute onto the anchor tags, and then other links in the text will just switch the active context back to the existing tab and update the focus location, like this. If a link points to a different image, instead of just a different location in the same image, the router will restart OpenSeadragon with the new tile pyramid and apply the requested focus, like this.
+Which makes it easy to "quote" specific sections of the image from an external piece of writing, like this. Throw a `target="_new"` attribute onto the anchor tags, and then other links in the text will just switch the active context back to the existing tab and update the focus location, like <a href="http://textplot.s3-website-us-west-1.amazonaws.com/#mental-maps/war-and-peace/0.3390/0.5548/6.5667" target="_new">this</a>. If a link points to a different image, instead of just a different location in the same image, the router will restart OpenSeadragon with the new tile pyramid and apply the requested focus, like <a href="http://textplot.s3-website-us-west-1.amazonaws.com/#mental-maps/walden/0.4594/0.0522/5.4723" target="_new">this</a>.
 
 To see it in action, check out the second half of [this blog post](https://github.com/davidmcclure/textplot/blob/master/notes/mental-maps/index.md).
 

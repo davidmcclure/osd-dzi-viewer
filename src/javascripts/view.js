@@ -47,7 +47,7 @@ module.exports = Backbone.View.extend({
     if (this.osd) this.osd.destroy();
 
     // Set the tile prefix.
-    this.prefix = group+'/'+image+'/';
+    this.prefix = group+'/'+image;
 
     // Start OSD.
     this.osd = OpenSeadragon({
@@ -95,7 +95,7 @@ module.exports = Backbone.View.extend({
     var y = c.y.toFixed(4);
     var z = z.toFixed(4);
 
-    Backbone.history.navigate(this.prefix+x+'/'+y+'/'+z, {
+    Backbone.history.navigate(this.prefix+'/'+x+'/'+y+'/'+z, {
       replace: true
     });
 
